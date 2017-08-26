@@ -1,0 +1,89 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Listen</title>
+</head>
+<body>
+<script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+<script>
+var config = {
+  language: 'ko-KR',
+  commands: {
+    listen: {
+      keyword: '들어봐',
+      answer: '메모 시작합니다',
+    },
+  },
+};
+
+function speak(text) {
+  var msg = new SpeechSynthesisUtterance();
+  msg.voice = speechSynthesis.getVoices().find(x => x.lang === config.language && x.name.startsWith('Google'));
+  msg.lang = config.language;
+  msg.text = text;
+  speechSynthesis.speak(msg);
+}
+
+class CommandMode {
+  start() {
+    annyang.setLanguage(config.language);
+
+    annyang.addCallback('resultNoMatch', (phrases) => this.onResultNoMatch(phrases));
+    annyang.addCommands({
+      [config.commands.listen.keyword]: () => this.onCommandListen(),
+    });
+
+    annyang.start({ autoRestart: true, continuous: false });
+  }
+
+  stop() {
+    annyang.abort();
+
+    annyang.removeCommands();
+    annyang.removeCallback('result');
+  }
+
+  onResultNoMatch(phrases) {
+    console.log("resultNoMatch: ", phrases);
+  }
+
+  onCommandListen() {
+    this.stop();
+    new DictationMode().start();
+    
+    speak(config.commands.listen.answer);
+  }
+}
+
+class DictationMode {
+  start() {
+    annyang.setLanguage(config.language);
+
+    annyang.addCallback('result', (phrases) => this.onResult(phrases));
+
+    annyang.start({ autoRestart: true, continuous: true });
+  }
+
+  stop() {
+    annyang.abort();
+
+    annyang.removeCallback('result');
+  }
+
+  onResult(phrases) {
+    speak(phrases[0]);
+    document.write(phrases.map(x => '<p>' + x + '</p>').join(''));
+
+    this.stop();
+    new CommandMode().start();
+  }
+}
+
+if (annyang) {
+  speechSynthesis.onvoiceschanged = () => {
+    new CommandMode().start();
+  };
+}
+</script>
+</body>
+</html>
