@@ -1,6 +1,9 @@
 # listen
 Interactive Memo WebApp with Speech Recognition
 
+## Note
+* Speech Recognition works on localhost or via https.
+
 ## Reference
 ### Speech Recognition
 * https://www.talater.com/annyang/
