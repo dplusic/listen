@@ -1,4 +1,9 @@
 var kws = new (function () {
+  // https://stackoverflow.com/a/8523852
+  var scripts = document.getElementsByTagName('script');
+  var scriptPath = scripts[scripts.length - 1].src;
+  var scriptFolder = scriptPath.substr(0, scriptPath.lastIndexOf( '/' ) + 1);
+  
   // These will be initialized later
   var recognizer, recorder, callbackManager, audioContext;
   // Only when both recorder and recognizer do we have a ready application
@@ -127,7 +132,7 @@ var kws = new (function () {
   this.init = function() {
     updateStatus("Initializing web audio and speech recognizer, waiting for approval to access the microphone");
     callbackManager = new CallbackManager();
-    spawnWorker("js/recognizer.js", function(worker) {
+    spawnWorker(scriptFolder + "recognizer.js", function(worker) {
         // This is the onmessage function, once the worker is fully loaded
         worker.onmessage = function(e) {
             // This is the case when we have a callback id to be called
