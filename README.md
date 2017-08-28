@@ -1,8 +1,13 @@
 # listen
 Interactive Memo WebApp with Speech Recognition
 
+## Demo
+https://dplusic.github.io/listen/app
+
 ## Note
 * Speech Recognition works on localhost or via https.
+* Only Korean.
+* Mobile is not supported yet.
 
 ## Reference
 ### Speech Recognition
