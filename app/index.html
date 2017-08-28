@@ -161,7 +161,7 @@ if (annyang) {
     <label for="ifttt_webhook_key"><a href="https://ifttt.com/services/maker_webhooks/settings">IFTTT Webhook</a> Key</label>
     <input id="ifttt_webhook_key" onchange="iftttWebhookKeyChanged(this)"></input>
     <script>
-      document.getElementById('ifttt_webhook_key').value = localStorage.iftttWebhookKey;
+      document.getElementById('ifttt_webhook_key').value = localStorage.iftttWebhookKey || '';
       function iftttWebhookKeyChanged(input) {
         localStorage.iftttWebhookKey = input.value;
       }
