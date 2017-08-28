@@ -19,11 +19,12 @@ var config = {
   },
 };
 
-function speak(text) {
+function speak(text, onend) {
   var msg = new SpeechSynthesisUtterance();
   msg.voice = speechSynthesis.getVoices().find(x => x.lang === config.language && x.name.startsWith('Google'));
   msg.lang = config.language;
   msg.text = text;
+  msg.onend = onend;
   speechSynthesis.speak(msg);
 }
 
@@ -66,9 +67,10 @@ class CommandModeDesktop {
 
   onCommandListen() {
     this.stop();
-    new DictationMode().start();
     
-    speak(config.commands.listen.answer);
+    speak(config.commands.listen.answer, () => {
+      new DictationMode().start();
+    });
   }
 }
 
@@ -91,9 +93,10 @@ class CommandModeMobile {
 
   onCommandListen() {
     this.stop();
-    new DictationMode().start();
     
-    speak(config.commands.listen.answer);
+    speak(config.commands.listen.answer, () => {
+      new DictationMode().start();
+    });
   }
 }
 
@@ -122,13 +125,14 @@ class DictationMode {
   }
 
   onResult(phrases) {
-    speak(phrases[0]);
-    document.getElementById('result').innerHTML = phrases.map(x => '<p>' + x + '</p>').join('');
-
-    trigger(phrases);
-
     this.stop();
-    new CommandMode().start();
+    
+    document.getElementById('result').innerHTML = phrases.map(x => '<p>' + x + '</p>').join('');
+    trigger(phrases);
+    
+    speak(phrases[0], () => {
+      new CommandMode().start();
+    });
   }
 }
 
