@@ -150,13 +150,16 @@ if (annyang) {
   };
 }
 </script>
-<div id="result">
+<div>
+  <h2>Say "Rocks" to start a memo.</h2>
 </div>
-<hr />
+<div>
+  <h3>Results</h3>
+  <div id="result">
+  </div>
+</div>
 <div id="triggers">
-  <p>
-    Triggers:
-  </p>
+  <h3>Triggers</h3>
   <p>
     <label for="ifttt_webhook_key"><a href="https://ifttt.com/services/maker_webhooks/settings">IFTTT Webhook</a> Key</label>
     <input id="ifttt_webhook_key" onchange="iftttWebhookKeyChanged(this)"></input>
