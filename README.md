@@ -1,7 +1,7 @@
 # listen
 Interactive Memo WebApp with Speech Recognition
 
-## [Demo](https://dplusic.github.io/listen/app)
+## [Demo](https://dplusic.github.io/listen/)
 
 ## Notes
 * Speech Recognition works on localhost or via https.
