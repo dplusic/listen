@@ -3,16 +3,17 @@ Interactive Memo WebApp with Speech Recognition
 
 ## [Demo](https://dplusic.github.io/listen/app)
 
-## Note
+## Notes
 * Speech Recognition works on localhost or via https.
-* Only Korean.
-* Mobile is not supported yet.
+* Mobile browsers are not supported yet.
 
-## Reference
+## References
 
 ### Speech Recognition
 * [Annyang](https://www.talater.com/annyang/)
-  * [Problems in Mobile Chrome](https://github.com/TalAter/annyang/issues/194)
+  * [Issue] [(Android) Repeated microphone notification](https://github.com/TalAter/annyang/issues/194)
+* [Pocketsphinx.js](https://syl22-00.github.io/pocketsphinx.js/)
+  * [Issue] [PocketSphinx + Google SpeechRecognition + Android = NO](https://github.com/syl22-00/pocketsphinx.js/issues/51)
 * [Chrome Web Speech API](https://developers.google.com/web/updates/2013/01/Voice-Driven-Web-Apps-Introduction-to-the-Web-Speech-API)
 
 ### Speech Synthesis
