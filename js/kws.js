@@ -5,7 +5,7 @@ var kws = new (function () {
   var scriptFolder = scriptPath.substr(0, scriptPath.lastIndexOf( '/' ) + 1);
   
   // These will be initialized later
-  var recognizer, recorder, callbackManager, audioContext;
+  var recognizer, recorder, callbackManager, audioContext, mediaStream;
   // Only when both recorder and recognizer do we have a ready application
   var isRecorderReady = isRecognizerReady = false;
   var onKwsReady;
@@ -56,7 +56,7 @@ var kws = new (function () {
   // This updates the UI when the app might get ready
   // Only when both recorder and recognizer are ready do we enable the buttons
   function checkReadyAndFireEvent() {
-    if (isRecorderReady && isRecognizerReady && onKwsReady) onKwsReady();
+    if (isRecognizerReady && onKwsReady) onKwsReady();
   };
 
   // This is just a logging window where we display the status
@@ -67,6 +67,7 @@ var kws = new (function () {
   // Callback function once the user authorises access to the microphone
   // in it, we instanciate the recorder
   function startUserMedia(stream) {
+    mediaStream = stream;
     var input = audioContext.createMediaStreamSource(stream);
     // Firefox hack https://support.mozilla.org/en-US/questions/984179
     window.firefox_audio_hack = input;
@@ -75,19 +76,33 @@ var kws = new (function () {
     // If a recognizer is ready, we pass it to the recorder
     if (recognizer) recorder.consumers = [recognizer];
     isRecorderReady = true;
-    checkReadyAndFireEvent();
     updateStatus("Audio recorder ready");
+
+    var id = keywordIds[0].id;
+    recorder.start(id);
   };
 
   // This starts recording. We first need to get the id of the keyword search to use
   this.startRecording = function() {
-    var id = keywordIds[0].id;
-    return recorder && recorder.start(id);
+    if (navigator.getUserMedia) navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
+                                    updateStatus("No live audio input in this browser");
+                                });
+    else updateStatus("No web audio support in this browser");
   };
 
   // Stops recording
   this.stopRecording = function() {
-    recorder && recorder.stop();
+    if (recorder) {
+      recorder.stop();
+      recorder.terminate();
+      recorder = null;
+    }
+    if (mediaStream) {
+      for (var track of mediaStream.getAudioTracks()) {
+        track.stop();
+      }
+      mediaStream = null;
+    }
   };
 
   // Called once the recognizer is ready
@@ -165,10 +180,6 @@ var kws = new (function () {
     } catch (e) {
       updateStatus("Error initializing Web Audio browser");
     }
-    if (navigator.getUserMedia) navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
-                                    updateStatus("No live audio input in this browser");
-                                });
-    else updateStatus("No web audio support in this browser");
   };
 
    // This is the list of words that need to be added to the recognizer

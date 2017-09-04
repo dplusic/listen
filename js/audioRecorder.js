@@ -49,6 +49,9 @@
 	this.cancel = function() {
 	    this.stop();
 	};
+  this.terminate = function() {
+	    worker.terminate();
+  };
 	myClosure = this;
 	worker.onmessage = function(e) {
 	    if (e.data.error && (e.data.error == "silent")) errorCallback("silent");
