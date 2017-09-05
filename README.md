@@ -12,8 +12,10 @@ Interactive Memo WebApp with Speech Recognition
 ### Speech Recognition
 * [Annyang](https://www.talater.com/annyang/)
   * [Issue] [(Android) Repeated microphone notification](https://github.com/TalAter/annyang/issues/194)
+    * Because of this issue, I adopted pocketsphinx.js for keyword spotting on mobile browsers.
 * [Pocketsphinx.js](https://syl22-00.github.io/pocketsphinx.js/)
   * [Issue] [PocketSphinx + Google SpeechRecognition + Android = NO](https://github.com/syl22-00/pocketsphinx.js/issues/51)
+    * Solved by stopping an audio stream.
 * [Chrome Web Speech API](https://developers.google.com/web/updates/2013/01/Voice-Driven-Web-Apps-Introduction-to-the-Web-Speech-API)
 
 ### Speech Synthesis
