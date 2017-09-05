@@ -5,7 +5,7 @@ Interactive Memo WebApp with Speech Recognition
 
 ## Notes
 * Speech Recognition works on localhost or via https.
-* Mobile browsers are not supported yet.
+* Mobile browsers are also supported.
 
 ## References
 
