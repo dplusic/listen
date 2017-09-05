@@ -19,9 +19,35 @@ var config = {
   },
 };
 
+function findVoice() {
+  let language = config.language;
+  
+  // Prefer a google voice
+  let voice = speechSynthesis.getVoices().find(x => x.lang === language && x.name.startsWith('Google'));
+  if (voice) {
+    return voice;
+  }
+  
+  // Secondary option which only matches a language
+  voice = speechSynthesis.getVoices().find(x => x.lang === language);
+  if (voice) {
+    return voice;
+  }
+  
+  language = language.replace('-', '_');
+  
+  // Match a language with a different form
+  voice = speechSynthesis.getVoices().find(x => x.lang === language);
+  if (voice) {
+    return voice;
+  }
+  
+  return null;
+}
+
 function speak(text, onend) {
   var msg = new SpeechSynthesisUtterance();
-  msg.voice = speechSynthesis.getVoices().find(x => x.lang === config.language && x.name.startsWith('Google'));
+  msg.voice = findVoice();
   msg.lang = config.language;
   msg.text = text;
   msg.onend = onend;
