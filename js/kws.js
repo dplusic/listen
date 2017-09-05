@@ -84,6 +84,8 @@ var kws = new (function () {
 
   // This starts recording. We first need to get the id of the keyword search to use
   this.startRecording = function() {
+    prevHyp = '';
+
     if (navigator.getUserMedia) navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
                                     updateStatus("No live audio input in this browser");
                                 });
