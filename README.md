@@ -18,7 +18,7 @@ Interactive Memo WebApp with Speech Recognition
     * Solved by stopping an audio stream.
   * [Issue] [False detection when there is no audio](https://github.com/syl22-00/pocketsphinx.js/issues/60)
     * Because of this issue, I adopted `JsSpeechRecognizer` for keyword spotting on all browsers.
-* [JsSpeechRecognizer](https://github.com/fxbox/JsSpeechRecognizer)
+* [JsSpeechRecognizer](https://github.com/dplusic/JsSpeechRecognizer)
 * [Chrome Web Speech API](https://developers.google.com/web/updates/2013/01/Voice-Driven-Web-Apps-Introduction-to-the-Web-Speech-API)
 
 ### Speech Synthesis
